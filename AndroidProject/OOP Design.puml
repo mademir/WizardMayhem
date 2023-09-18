@@ -1,0 +1,371 @@
+@startuml
+abstract class Tile {
+# Rect mapLocRect
++ {static} Tile getTile(int,SpriteSheet,Rect)
++ {abstract}void draw(Canvas)
+}
+enum TileType {
++  WATER_TILE
++  LAVA_TILE
++  GROUND_TILE
++  GRASS_TILE
++  TREE_TILE
+}
+class DisplayArea {
++ Rect DISPLAY_RECT
+- int wPixels
+- int hPixels
+- double xOffset
+- double yOffset
+- double displayCentreX
+- double gameCentreX
+- double displayCentreY
+- double gameCentreY
+- Entity centredEntity
++ float xToDisplay(double)
++ float yToDisplay(double)
++ Rect getGameRect()
++ void update()
+}
+abstract class Character {
+# Animator animator
+# HealthBar healthBar
+# double xSpeed
+# boolean direction
++ double directionX
++ double directionY
++ void draw(Canvas,DisplayArea)
+# void update_directions()
+}
+class TreeTile {
+- Sprite grassSprite
+- Sprite treeSprite
++ void draw(Canvas)
+}
+class GroundTile {
+- Sprite sprite
++ void draw(Canvas)
+}
+class CustomLevelActivity {
+- int[] mapBtnIDs
+- RadioGroup mapBtns
+- SeekBar enemyHP
+- SeekBar playerHP
+- ToggleButton enemy1
+- ToggleButton enemy2
+- ToggleButton enemy3
+# void onCreate(Bundle)
++ void fetchImageFromUrl(String)
++ void displayMessage(String)
+}
+class GameOver {
+- DisplayArea displayArea
+- Context context
++ GameButton btnBack
++ GameButton btnRestart
++ void draw(Canvas,int,int)
+}
+class MainActivity {
+- {static} String TAG
++ {static} String NAME_PREF
++ String playerName
+- int highScore
+# void onCreate(Bundle)
+- void onHighScoreClick()
+- void play()
+- void loadName()
+- void loadHighScore()
+}
+enum EntityState {
++  IDLE
++  RUNNING
++  ATTACKING
++  DEAD
++ {static} int toInt(EntityState)
+}
+class Animator {
++ Entity entity
+- Sprite[][] spriteArrays
+- int updateDelay
+- {static} int MAX_UPDATE_DELAY
+- int idleFrameCt
+- int runFrameCt
+- int attackFrameCt
+- float deadFrameCt
++ void draw(Canvas,DisplayArea,EntityState,boolean)
+- int getFrameCt(EntityState,boolean)
+}
+class HTTPRequest {
+- {static} String Score_URL
+- String name
+- int highScore
+- Activity activity
++ void send()
++ void run()
++ void displayMessage(String)
+}
+class WaterTile {
+- Sprite sprite
++ void draw(Canvas)
+}
+class LevelsActivity {
+# void onCreate(Bundle)
+- void back()
+- void switchToLevelMaker()
+- void launchGame(int)
+}
+class Heart {
+- Bitmap bitmap
+- DisplayArea displayArea
+- long sinCt
++ void draw(Canvas)
++ void update()
+}
+class GetNameActivity {
++ void onCreate(Bundle)
+- void onSaveClick(EditText)
+- void saveName(String)
+}
+class HighScoresActivity {
+~ String data
+- {static} String Json_URL
+- String playerName
+- Context activiy
++ void onCreate(Bundle)
+- void addToTable(List<AbstractMap.SimpleEntry<String,String>>)
++ {static} List<AbstractMap.SimpleEntry<String,String>> parseString(String)
+- String readURL(String)
+- void onDoneClick()
+- void loadName()
++ void displayMessage()
+}
+class Tilemap {
+- MapLayout mapLayout
+- Tile[][] tilemap
+- SpriteSheet spriteSheet
+- Bitmap mapBitmap
+- void initializeTilemap()
+- Rect getRectByIndex(int,int)
++ void draw(Canvas,DisplayArea)
+}
+class Game {
+- {static} int SPELL_DISTANCE
+- boolean[] customEnemyToggle
+- int customEnemyHP
+- List<Heart> heartsList
+- int heartsCt
+- double UPDATES_PER_SPAWN
+- double updatesUntilNextSpawn
+- Player player
+- GameOver gameOver
+- GameButton btnBack
+- ArrayList<Sprite[][]> enemySpriteList
+- int level
+- GameLoop gameLoop
+- Context context
+- Activity activity
+- Joystick joystick
+- DisplayArea displayArea
+- Tilemap tilemap
+- List<Enemy> enemyList
+- int spellCt
+- int joystickID
+- List<Spell> spells
+- float lastTouchX
+- float lastTouchY
+- Vector<Double> spellDirection
+- int score
+- boolean isGameOver
+- int highScore
+- boolean recycling
++ void displayFPS(Canvas)
++ void displayUPS(Canvas)
++ void displayScore(Canvas)
++ void surfaceCreated(SurfaceHolder)
++ void surfaceChanged(SurfaceHolder,int,int,int)
++ void surfaceDestroyed(SurfaceHolder)
++ void displayMessage(String)
++ boolean onTouchEvent(MotionEvent)
++ void draw(Canvas)
++ void update()
+- void optimiseMemory()
++ boolean readyToSpawn()
+- void onGameOver()
+- void saveHighScore()
+- void playDeathSound()
++ void pause()
+}
+class SpriteSheet {
++ {static} int SPRITE_W
++ {static} int SPRITE_H
++ {static} int MAX_FRAMES
+- Bitmap bitmap
++ Bitmap getBitmap()
++ Sprite[] getSprites()
+- Sprite getSpriteByIndex(int,int)
++ Sprite getWaterSprite()
++ Sprite getLavaSprite()
++ Sprite getGroundSprite()
++ Sprite getGrassSprite()
++ Sprite getTreeSprite()
+}
+class GameActivity {
++ {static} String TAG
++ {static} String SHARED_PREFS
++ {static} String HIGH_SCORE
+- Game game
+- int highScore
+# void onCreate(Bundle)
+- void loadHighScore()
+# void onPause()
+- void back()
+}
+class Spell {
++ {static} double SPEED_PIXELS_PER_SECOND
+- {static} double MAX_SPEED
+- double velocityX
+- double velocityY
++ boolean isColliding(Entity)
++ void update()
++ void draw(Canvas,DisplayArea)
+}
+class Sprite {
+- SpriteSheet sheet
+- Rect rect
++ int getWidth()
++ int getHeight()
++ void draw(Canvas,int,int,boolean)
++ void draw(Canvas,int,int)
+}
+class Joystick {
+- int outerX
+- int outerY
++ int innerX
++ int innerY
+- int outerRad
+- int innerRad
+- Paint innerPaint
+- Paint outerPaint
+- boolean isPressed
+- double touchDistToCentre
+- double actuatorX
+- double actuatorY
++ void draw(Canvas,DisplayArea)
++ void update()
+- void updateInnerCircle()
++ void setActuator(double,double)
++ boolean isPressed(double,double)
++ void resetActuator()
++ boolean getIsPressed()
++ void setIsPressed(boolean)
++ double getActuatorX()
++ double getActuatorY()
+}
+class GrassTile {
+- Sprite sprite
++ void draw(Canvas)
+}
+class LavaTile {
+- Sprite sprite
++ void draw(Canvas)
+}
+class GameButton {
+- int BUTTON_PIXEL_SIZE
+- double x
+- double y
+- double radius
+- Bitmap bitmap
++ void draw(Canvas)
++ boolean isPressed(double,double)
++ void recycleMemory()
+}
+class Player {
++ {static} double SPEED_PIXELS_PER_SECOND
++ {static} int MAX_ATTACK_FOR_UPDATES
+- {static} double SPEED_MULTIPLIER
+- Joystick joystick
++ int attackForUpdates
++ void update()
+}
+class MapLayout {
++ {static} int TILE_WIDTH_PIXELS
++ {static} int TILE_HEIGHT_PIXELS
++ {static} int NUMBER_OF_ROW_TILES
++ {static} int NUMBER_OF_COLUMN_TILES
+- int[][] layout
++ int[][] getLayout()
+- void initializeLayout(int)
+}
+class Enemy {
+- {static} double SPEED_PIXELS_PER_SECOND
+- {static} double MAX_SPEED
+- Player player
++ void update()
+}
+abstract class Entity {
+- Context context
+# double x
+# double y
+# double w
+# double h
+# Paint paint
+# EntityState state
++ int MAX_HP
+# int hp
+# {static} double getDistanceBetweenObjects(Entity,Entity)
++ {static} boolean isColliding(Entity,Entity)
++ void draw(Canvas,DisplayArea)
++ {abstract}void update()
++ double getX()
++ double getY()
++ double getW()
++ double getH()
++ EntityState getState()
++ void setState(EntityState)
++ int getHP()
++ int setHP(int)
+}
+class HealthBar {
+- int healthTypeColor
+- Entity player
+- Paint borderPaint
+- int width
++ void draw(Canvas,DisplayArea)
+}
+class GameLoop {
++ {static} double MAX_UPS
+- {static} double UPS_FREQUENCY
+- double avgUPS
+- double avgFPS
+- boolean isRunning
+- SurfaceHolder surfaceHolder
+- Game game
++ double getAvgFPS()
++ double getAvgUPS()
++ void startLoop()
++ void stopLoop()
++ void run()
+}
+
+
+Entity <|-- Character
+Tile <|-- TreeTile
+Tile <|-- GroundTile
+AppCompatActivity <|-- CustomLevelActivity
+AppCompatActivity <|-- MainActivity
+Thread <|-- HTTPRequest
+Tile <|-- WaterTile
+AppCompatActivity <|-- LevelsActivity
+Entity <|-- Heart
+AppCompatActivity <|-- GetNameActivity
+AppCompatActivity <|-- HighScoresActivity
+Callback <|.. Game
+SurfaceView <|-- Game
+AppCompatActivity <|-- GameActivity
+Entity <|-- Spell
+Tile <|-- GrassTile
+Tile <|-- LavaTile
+Character <|-- Player
+Character <|-- Enemy
+Thread <|-- GameLoop
+@enduml

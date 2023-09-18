@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">MyGame</string>
+    <string name="mainTitle">Wizard Mayhem</string>
+    <string name="playGameBtnText">Play</string>
+    <string name="madeBy">Made by: 30021984</string>
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="highScoreBtnText">High Scores</string>
+    <string name="saveNameBtnText">Save Name</string>
+    <string name="Done">Back</string>
+    <string name="Level1">Level 1</string>
+    <string name="Level2">Level 2</string>
+    <string name="Level3">Level 3</string>
+    <string name="LevelCustom">Custom</string>
+    <string name="CustomPlay">Play</string>
+</resources>
