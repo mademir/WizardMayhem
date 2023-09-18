@@ -1,5 +1,8 @@
 <p>You can view the full report <a href="Report.pdf">here</a>.</p>
 
+## Screenshots
+<img src="/Screenshots/main menu.jpg" width="400px"> <img src="/Screenshots/level menu.jpg" width="400px"> <img src="/Screenshots/custom level editor.jpg" width="400px"> <img src="/Screenshots/high scores.jpg" width="400px"> <img src="/Screenshots/lvl1.jpg" width="400px"> <img src="/Screenshots/lvl2.jpg" width="400px"> <img src="/Screenshots/gameplaylvl3.jpg" width="400px"> <img src="/Screenshots/game over.jpg" width="400px">
+
 ### Feature List:
 - Joystick & Multi touch
 - Online High Scores
